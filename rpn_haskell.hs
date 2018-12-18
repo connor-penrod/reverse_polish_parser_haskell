@@ -1,10 +1,8 @@
-module HW4 where
+module RPNparser where
 import Prelude hiding (Either, Left, Right)
 
 data Op = Val Int | Plus | Minus | Mul | IntDiv deriving ( Show , Eq )
 type PExp = [Op]
-
--- PROBLEM 1
 
 rpnParse :: String -> PExp
 rpnParse str = lParse (words str)
@@ -17,8 +15,6 @@ rpnParse str = lParse (words str)
                     | quantity == "/" = IntDiv
                     | otherwise = Val (read(quantity) :: Int)
                     
--- PROBLEM 2
-
 consumeVal (Val x) = x
 
 helpEval :: PExp -> [Op]
@@ -36,9 +32,7 @@ eval []  = error "Bad input"
 eval xs
     | (length (helpEval xs)) /= 1 = error "Invalid PExp"
     | otherwise = consumeVal(head $ helpEval xs)
-    
--- PROBLEM 3 
- 
+     
 data RPNError = DivByZero | InvalidInput deriving ( Show , Eq )
 data Either a b = Left a | Right b deriving ( Show , Eq )
 type RPNResult = Either RPNError Int
@@ -71,9 +65,7 @@ evalSafe xs
     | (length (help2Eval xs)) /= 1 = Left InvalidInput
     | consumeValSafe(head $ help2Eval xs) == Left InvalidInput = Left InvalidInput
     | otherwise = consumeValSafe(head $ help2Eval xs)
-    
--- PROBLEM 4
- 
+     
 type RPNResultStr = Either String String
 
 help3Eval :: PExp -> [RPNResultStr]
